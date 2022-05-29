@@ -11,9 +11,10 @@
       <meetings-page :username="authenticatedUsername"></meetings-page>
     </div>
     <div v-else>
-        <button>Zaloguj się</button>
-        <button class="button-clear">Zarejestruj się</button>
-      <login-form @login="login($event)"></login-form>
+      <button @click="registering = false" :class="registering ? 'button-outline' : ''">Zaloguj się</button>
+      <button @click="registering = true" :class="!registering ? 'button-outline' : ''">Zarejestruj się</button>
+      <div :class="'alert alert-' + (this.isError ? 'error' : 'success')" v-if="message">{{ message }}</div>
+      <login-form @submit="registering ? register($event) : login($event)" :button-label="loginButtonLabel"></login-form>
     </div>
   </div>
 </template>
@@ -28,7 +29,9 @@
         data() {
             return {
                 registering: false,
-                authenticatedUsername: ""
+                authenticatedUsername: "",
+              message: '',
+              isErrorMessage: false,
             };
         },
         methods: {

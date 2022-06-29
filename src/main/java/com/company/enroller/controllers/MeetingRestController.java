@@ -28,7 +28,7 @@ public class MeetingRestController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> getMeeting(@PathVariable("id") long id) {
+    public ResponseEntity<?> get(@PathVariable("id") long id) {
         Meeting meeting = meetingService.findById(id);
         if (meeting == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
@@ -40,10 +40,18 @@ public class MeetingRestController {
     public ResponseEntity<?> registerMeeting(@RequestBody Meeting meeting) {
         Meeting foundMeeting = meetingService.findById(meeting.getId());
         if (foundMeeting != null) {
-            return new ResponseEntity("Unable to crate. A meeting with id " + foundMeeting.getId() + " already exist.", HttpStatus.CONFLICT);
+            return new ResponseEntity("Unable to create. A meeting with id " + foundMeeting.getId() + " already exist.", HttpStatus.CONFLICT);
         }
         meetingService.add(meeting);
-        return new ResponseEntity("A meeting with title " + meeting.getTitle() + "has bee added.", HttpStatus.OK);
+        return new ResponseEntity("A meeting with title " + meeting.getTitle() + "has been added.", HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<?> updateMeeting(@PathVariable("id") long id, @RequestBody Meeting meeting) {
+        Meeting currentMeeting = meetingService.findById(id);
+        meeting.setId(currentMeeting.getId());
+        meetingService.update(meeting);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

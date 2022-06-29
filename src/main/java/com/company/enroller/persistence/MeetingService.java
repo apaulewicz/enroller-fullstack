@@ -1,6 +1,7 @@
 package com.company.enroller.persistence;
 
 import com.company.enroller.model.Meeting;
+import com.company.enroller.model.Participant;
 import org.hibernate.Query;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Component;
@@ -31,6 +32,40 @@ public class MeetingService {
         connector.getSession().save(meeting);
         transaction.commit();
     }
+
+    public void delete(Meeting meeting) {
+        Transaction transaction = connector.getSession().beginTransaction();
+        connector.getSession().delete(meeting);
+        transaction.commit();
+    }
+
+    public void update(Meeting meeting, Meeting updatedMeeting) {
+        meeting.setTitle(updatedMeeting.getTitle());
+        meeting.setDescription(updatedMeeting.getDescription());
+        meeting.setDate(updatedMeeting.getDate());
+
+        Transaction transaction = connector.getSession().beginTransaction();
+        connector.getSession().update(meeting);
+        transaction.commit();
+    }
+
+    public void addParticipant(Meeting meeting, Participant participant) {
+        meeting.addParticipant(participant);
+
+        Transaction transaction = connector.getSession().beginTransaction();
+        connector.getSession().update(meeting);
+        transaction.commit();
+    }
+
+    public void removeParticipant(Meeting meeting, Participant participant) {
+        meeting.removeParticipant(participant);
+
+        Transaction transaction = connector.getSession().beginTransaction();
+        connector.getSession().update(meeting);
+        transaction.commit();
+    }
+
+}
 
 
 }

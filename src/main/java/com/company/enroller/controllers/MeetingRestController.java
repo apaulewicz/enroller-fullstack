@@ -71,7 +71,7 @@ public class MeetingRestController {
         if (login == null) {
             return new ResponseEntity<String>("Unable to find", HttpStatus.BAD_REQUEST);
         }
-        System.out.println("Dodano uczestnika");
+        System.out.println("dodano uczestnika");
         Participant participantToAdd = participantService.findByLogin(login);
         currentMeeting.addParticipant(participantToAdd);
         meetingService.update(currentMeeting);

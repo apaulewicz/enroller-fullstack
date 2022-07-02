@@ -1,6 +1,7 @@
 package com.company.enroller.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -14,9 +15,10 @@ public class Participant {
     private String login;
 
     @Column
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @JsonIgnore
+    //@JsonIgnore
     @ManyToMany
     @JoinTable(name = "meeting_participant", joinColumns = {
             @JoinColumn(name = "participant_login")}, inverseJoinColumns = {@JoinColumn(name = "meeting_id")})
